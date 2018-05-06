@@ -5,21 +5,12 @@
 
 using namespace std;
 
-// vector<List> arrayRandomizer(vector<List> &a){
-//     int max = a.size() - 1;
-//     for (int i = 0; i < a.size(); i++){
-//         List temp = a[i];
-//         int randint = rand() % max + i;
-//         a[i] = a[randint];
-//         a[randint] = temp;
-//         cout << "randint is: " << randint << endl;
-//         cout << "a[i] is : " << a[i].owner << endl;
-//         cout <<"a[randint] is : " << a[randint].owner << endl;
-//     }
-//     return a;
-// }
+string option;
+string option2;
 
-int main(int argc, char * argv[]){
+int rosterNum;
+
+vector<List> playerInsert(){
     cout << "welcome to the FantasyPool generator" << endl;
     cout << "How many participants are there?" << endl;
     int num;
@@ -34,32 +25,64 @@ int main(int argc, char * argv[]){
         cin >> player; 
         fullList.push_back(List(player));
     }
-    for (int i = 0; i < fullList.size(); i++){
-        cout << fullList[i].owner << endl;
-    }
-    random_shuffle(begin(fullList), end(fullList));
-    for (int i = 0; i < fullList.size(); i++){
-        cout << fullList[i].owner << endl;
-    }
+    return fullList;
+}
 
+int rosterSize(){
+    int size;
     cout << "Input # of players in roster" << endl;
-    cin >> rosterNum;
-    cout << rosterNum << " players allowed in a team" << endl;
+    cin >> size;
+    cout << endl;
+    cout << size << " players allowed in a team" << endl;
+    cout << endl;
+    cout << "Randomizing player selection order" << endl;
+    cout << endl;
+    return size;
+}
+
+void rosterSelectionProcess(vector<List> fullList, int rosterNum){
     for (int i = 0; i < fullList.size(); i++){
         cout << fullList[i].owner << ", please insert " << rosterNum << " players one by one." << endl;
         cout << "If you would like to remove your last pick, type REMOVE and enter" << endl;
-        for (int j = 0; j < rosterNum; j++){
-            string draft;
-            cin >> draft; 
-            if (draft == "REMOVE"){
+        int j = 0;
+        while(j < rosterNum){
+            cin >> option; 
+            if (option == "REMOVE"){
+                cout << fullList[i].head->data << " was removed from your list" << endl;
                 fullList[i].remove(fullList[i].head);
+                j--;
+                cout << j << endl;
             }
-            else 
-                fullList[i].insert(fullList[i].head, draft);
+            else {
+                fullList[i].insert(fullList[i].head, option);
+                j++;
+                cout << j << endl;
+            }
         }
-        cout << "Your team is: " << endl;
+        cout << "Your team selections are: " << endl;
         fullList[i].print(fullList[i].head);
-        cout << "If you would like to remove the last pick, type REMOVE, otherwise type DONE";
-    }
 
+        cout << "If you would like to change a player on your team selection, type their name, otherwise type DONE" << endl;
+        cin >> option;
+        while (option != "DONE"){
+            cout << "Add the name of the new player you would like to exchange with" << endl;
+            cin >> option2;
+            fullList[i].changeData(fullList[i].head, option, option2);
+            cout << "Your updated team selection is:" << endl;
+            fullList[i].print(fullList[i].head);
+            cout << "If you would like to change a player on your team selection, type their name, otherwise type DONE" << endl;
+            cin >> option;
+        }
+    }
+}
+
+int main(int argc, char * argv[]){
+    
+    vector<List> fullList = playerInsert();
+   
+    random_shuffle(begin(fullList), end(fullList));
+   
+    rosterNum = rosterSize();
+
+    rosterSelectionProcess(fullList, rosterNum);
 }

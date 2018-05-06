@@ -38,3 +38,15 @@ void List::print(Node* head){
         curr = curr->next;
     }
 }
+
+void List::changeData(Node* head, string oldData, string newData){
+    Node * curr = head;
+    while (curr != NULL){
+        if (curr->data == oldData){
+            curr->data = newData;
+            return;
+        }
+        curr = curr->next;
+    }
+    cout << oldData << " is not in your team!" << endl;
+}

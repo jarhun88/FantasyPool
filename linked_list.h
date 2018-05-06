@@ -27,6 +27,8 @@ void remove(Node*& head);
 // prints all values in linked list starting from head
 void print(Node* head);
 
+void changeData(Node* head, string oldData, string newData);
+
 };
 
 #endif 
