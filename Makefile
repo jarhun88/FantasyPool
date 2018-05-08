@@ -1,4 +1,4 @@
-EXENAME = hockeyPool
+EXENAME = fantasyPool
 OBJS = main.o linked_list.o
 
 CXX = clang++

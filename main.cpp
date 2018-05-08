@@ -2,13 +2,15 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 using namespace std;
 
+
 string option;
 string option2;
-
 int rosterNum;
+unordered_map<string, string> map;
 
 vector<List> playerInsert(){
     cout << "welcome to the FantasyPool generator" << endl;
@@ -51,12 +53,14 @@ void rosterSelectionProcess(vector<List> fullList, int rosterNum){
                 cout << fullList[i].head->data << " was removed from your list" << endl;
                 fullList[i].remove(fullList[i].head);
                 j--;
-                cout << j << endl;
+                // cout << j << endl;
+                cout << fullList[i].head->size;
             }
             else {
                 fullList[i].insert(fullList[i].head, option);
                 j++;
-                cout << j << endl;
+                cout << fullList[i].head->size;
+                // cout << j << endl;
             }
         }
         cout << "Your team selections are: " << endl;
@@ -85,4 +89,27 @@ int main(int argc, char * argv[]){
     rosterNum = rosterSize();
 
     rosterSelectionProcess(fullList, rosterNum);
+
+    // for (int i = 0; i < fullList.size(); i++){
+    //     int counter = 0;
+    //     string owner = fullList[i].owner;
+    //     while (fullList[i].head != NULL){
+    //         string value = fullList[i].head->data;
+    //         auto search = map.find(value);
+    //         if (search != map.end()){
+    //             strcat()
+    //             map.insert( ,value);
+    //             cout << "inserted player" << owner << endl;
+    //             break;
+    //         }
+    //         else {
+    //             fullList[i].remove(fullList[i].head);
+    //             if (fullList[i].head == NULL){
+    //                 cout << "player :" << fullList[i].owner << ", please insert another player" << endl;
+    //                 cin >> option; 
+    //                 fullList[i].insert(fullList[i].head, option);
+    //             }
+    //         }
+    //     }
+    // }
 }

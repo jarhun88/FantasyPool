@@ -22,6 +22,10 @@ void List::insert(Node*& head, string newData){
     curr->data = newData;
     curr->next = head;
     head = curr;
+    if (curr->next == NULL){
+        curr->size = 1;
+    }
+    else curr->size = curr->next->size + 1;
 }
 
 void List::remove(Node*& head){

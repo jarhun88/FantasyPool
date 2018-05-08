@@ -11,6 +11,7 @@ private:
     struct Node {
         string data;
         Node * next;
+        int size;
     };
 
 public:
