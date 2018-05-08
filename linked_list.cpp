@@ -54,3 +54,10 @@ void List::changeData(Node* head, string oldData, string newData){
     }
     cout << oldData << " is not in your team!" << endl;
 }
+
+void List::incrementNodeSize(Node* head){
+    Node * curr = head;
+    while (curr != NULL){
+        curr->size += 1;
+    }
+}

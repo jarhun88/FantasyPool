@@ -30,6 +30,8 @@ void print(Node* head);
 
 void changeData(Node* head, string oldData, string newData);
 
+void incrementNodeSize(Node* head);
+
 };
 
 #endif 
