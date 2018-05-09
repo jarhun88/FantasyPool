@@ -15,7 +15,6 @@ vector<List> playerInsert(){
     cout << "welcome to the FantasyPool generator" << endl;
     cout << "How many participants are there?" << endl;
     int num;
-    int rosterNum;
     cin >> num; 
     vector<List> fullList;
      
@@ -41,7 +40,7 @@ int getRosterSize(){
     return size;
 }
 
-void rosterSelectionProcess(vector<List> &fullList, int rosterNum){
+void rosterSelectionProcess(vector<List> &fullList){
     for (int i = 0; i < fullList.size(); i++){
         cout << fullList[i].owner << ", please insert " << rosterNum << " players one by one." << endl;
         cout << "If you would like to remove your last pick, type REMOVE and enter" << endl;
@@ -54,7 +53,7 @@ void rosterSelectionProcess(vector<List> &fullList, int rosterNum){
                 j--;
             }
             else {
-                fullList[i].insert(option);
+                fullList[i].insertFront(option);
                 j++;
             }
         }
@@ -66,7 +65,7 @@ void rosterSelectionProcess(vector<List> &fullList, int rosterNum){
         while (option != "DONE"){
             cout << "Add the name of the new player you would like to exchange with" << endl;
             cin >> option2;
-            fullList[i].changeData(fullList[i].head, option, option2);
+            fullList[i].changeData(option, option2);
             cout << "Your updated team selection is:" << endl;
             fullList[i].print();
             cout << "If you would like to change a player on your team selection, type their name, otherwise type DONE" << endl;
@@ -75,18 +74,7 @@ void rosterSelectionProcess(vector<List> &fullList, int rosterNum){
     }
 }
 
-int main(int argc, char * argv[]){
-    
-    vector<List> fullList = playerInsert();
-   
-    random_shuffle(begin(fullList), end(fullList));
-   
-    rosterNum = getRosterSize();
-
-    rosterSelectionProcess(fullList, rosterNum);
-
-    cout << fullList[0].getSize() << endl;
-
+void drafting(vector<List> &fullList){
     int i = 0;
     int j = 0;
     bool exit = false;
@@ -94,28 +82,31 @@ int main(int argc, char * argv[]){
         if (i >= fullList.size()){
             i = 0;
         }
-
         string owner = fullList[i].owner;
         bool escape = false;
-        cout << "lopp" << endl;
         while (!escape){
             // get node from curret list's index
             string value = fullList[i].getDataAtIndex();
             auto search = map.find(value);
             if (search == map.end()){
                 map.insert(make_pair(value, owner));      
-                cout << "inserted draft " << value << " for player " << owner << endl;
+                // cout << "inserted draft " << value << " for player " << owner << endl;
                 fullList[i].incIndex();
+                // cout << "Index incremented to " << index << endl;
                 // increment index;
                 escape = true;
             }
             else {
-                if (fullList[i].head == NULL){
-                    cout << fullList[i].owner << ", please insert another player" << endl;
-                    cin >> option; 
-                    fullList[i].insert(option);
+                int index = fullList[i].getIndex();
+                if (index == 0){
+                    fullList[i].removeHead();
                 }
-                else fullList[i].incIndex();
+                else {
+                    fullList[i].removeAtIndex(index);
+                }
+                cout << fullList[i].owner << ", please insert another player" << endl;
+                cin >> option; 
+                fullList[i].insertBack(option);
             }
         }
         i++;
@@ -124,4 +115,22 @@ int main(int argc, char * argv[]){
             exit = true;
         }
     }
+}
+
+void programEnd(vector<List> fullList) {
+    cout << "Drafting Complete, Reading every participant's roster:" << endl;
+    for (int i = 0; i < fullList.size(); i++){
+        cout << fullList[i].owner << "'s roster: " << endl;
+        fullList[i].print();
+    }
+    cout << "Have Fun!" << endl;
+}
+
+int main(){
+    vector<List> fullList = playerInsert();
+    random_shuffle(begin(fullList), end(fullList));
+    rosterNum = getRosterSize();
+    rosterSelectionProcess(fullList);
+    drafting(fullList);
+    programEnd(fullList);
 }

@@ -11,6 +11,7 @@ using namespace std;
 
 List::List(string name){
     head = NULL;
+    tail = NULL;
     owner = name;
 }
 
@@ -18,15 +19,26 @@ List::List(string name){
  * Insert new Node at the front (head) of the linked list
  * previous head is now at second of the linked list
  */
-void List::insert(string newData){
-    Node * curr = new Node;
-    curr->data = newData;
-    curr->next = head;
-    head = curr;
-    if (curr->next == NULL){
-        curr->size = 1;
+void List::insertFront(string newData){
+    Node * node = new Node;
+    node->data = newData;
+    node->next = head;
+    head = node;
+    if (node->next == NULL){
+        tail = node;
     }
-    else curr->size = curr->next->size + 1;
+    length++;
+}
+
+void List::insertBack(string newData){
+    Node * node = new Node;
+    node->data = newData;
+    if (tail != NULL){
+        tail->next = node;
+        tail = node;
+    }
+    else tail = node;
+    length++;
 }
 
 void List::removeHead(){
@@ -34,6 +46,7 @@ void List::removeHead(){
     head = temp->next;
     temp->next = NULL;
     delete temp;
+    length--;
 }
 // prints all values in linked list starting from head
 void List::print(){
@@ -44,7 +57,7 @@ void List::print(){
     }
 }
 
-void List::changeData(Node* head, string oldData, string newData){
+void List::changeData(string oldData, string newData){
     Node * curr = head;
     while (curr != NULL){
         if (curr->data == oldData){
@@ -54,6 +67,22 @@ void List::changeData(Node* head, string oldData, string newData){
         curr = curr->next;
     }
     cout << oldData << " is not in your team!" << endl;
+}
+
+void List::removeAtIndex(int index) {
+    Node * curr = head;
+    Node * pre;
+    for (int i = 0; i < index; i++){
+        pre = curr;
+        curr = curr->next;
+    }
+    pre->next = curr->next;
+    if (tail == curr){
+        tail = pre;
+    }
+    delete curr;
+    curr->next = NULL;
+    length--;
 }
 
 void List::incIndex() {
@@ -68,6 +97,10 @@ string List::getDataAtIndex() {
     return curr->data;
 }
 
-int List::getSize() {
-    return head->size;
+int List::getIndex() {
+    return index;
+}
+
+int List::getLength() {
+    return length;
 }
