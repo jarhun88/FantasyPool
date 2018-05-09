@@ -8,10 +8,12 @@ using namespace std;
 class List {
 private:
 
+int index = 0;
+
     struct Node {
         string data;
         Node * next;
-        int size;
+        int size = 0;
     };
 
 public:
@@ -22,15 +24,19 @@ Node * head;
 
 List(string name);
 
-void insert(Node*& head, string newData);
+void insert(string newData);
 
-void remove(Node*& head);
+void removeHead();
 // prints all values in linked list starting from head
-void print(Node* head);
+void print();
 
 void changeData(Node* head, string oldData, string newData);
 
-void incrementNodeSize(Node* head);
+void incIndex();
+
+string getDataAtIndex();
+
+int getSize();
 
 };
 

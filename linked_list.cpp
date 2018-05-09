@@ -4,6 +4,7 @@
 
 using namespace std;
 
+
 /**
  * Linked List Constructor
  */
@@ -17,7 +18,7 @@ List::List(string name){
  * Insert new Node at the front (head) of the linked list
  * previous head is now at second of the linked list
  */
-void List::insert(Node*& head, string newData){
+void List::insert(string newData){
     Node * curr = new Node;
     curr->data = newData;
     curr->next = head;
@@ -28,14 +29,14 @@ void List::insert(Node*& head, string newData){
     else curr->size = curr->next->size + 1;
 }
 
-void List::remove(Node*& head){
+void List::removeHead(){
     Node * temp = head;
     head = temp->next;
     temp->next = NULL;
     delete temp;
 }
 // prints all values in linked list starting from head
-void List::print(Node* head){
+void List::print(){
     Node * curr = head;
     while (curr != NULL){
         cout << curr->data << " " << endl;
@@ -55,9 +56,18 @@ void List::changeData(Node* head, string oldData, string newData){
     cout << oldData << " is not in your team!" << endl;
 }
 
-void List::incrementNodeSize(Node* head){
+void List::incIndex() {
+    index++;
+}
+
+string List::getDataAtIndex() {
     Node * curr = head;
-    while (curr != NULL){
-        curr->size += 1;
+    for (int i = 0; i < index; i++){
+        curr = curr->next;
     }
+    return curr->data;
+}
+
+int List::getSize() {
+    return head->size;
 }
